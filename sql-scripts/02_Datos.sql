@@ -107,7 +107,8 @@ FROM TipoArchivo;
 SELECT *
 FROM Tool;
 SELECT *
-FROM Agente;
+FROM Agente WHERE Activo = 0;
+SELECT * FROM vw_
 SELECT *
 FROM Archivo;
 SELECT *

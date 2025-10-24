@@ -75,7 +75,8 @@ CREATE TABLE Archivo
     IdTipoArchivo INT NOT NULL,
     Nombre NVARCHAR(150) NOT NULL,
     FechaSubida DATETIME NOT NULL DEFAULT GETDATE(),
-    Peso INT NOT NULL, -- en bytes
+    Peso INT NOT NULL,
+    -- en bytes
     Ruta NVARCHAR(MAX) NOT NULL,
     FOREIGN KEY
             (IdUsuarioDueno) REFERENCES Usuario
