@@ -1,0 +1,111 @@
+-- Procedimiento para compartir Agentes entre usuarios
+
+USE SistemaIA;
+GO
+
+CREATE PROCEDURE sp_Compartir_Agente
+	(
+	@IdAgente INT,
+	@IdUsuarioCompartido INT
+	)
+AS
+BEGIN
+	
+	DECLARE @IdAgenteEncontrado INT;
+	DECLARE @ExisteUsuarioCompartido INT;
+	DECLARE @IdUsuarioDueno INT;
+
+	-- verificar que tanto el usuario como el agente existan
+	SELECT @IdAgenteEncontrado = IdAgente, 
+		   @IdUsuarioDueno = IdUsuarioDueno
+		FROM Agente 
+	WHERE IdAgente = @IdAgente;
+
+	SELECT @ExisteUsuarioCompartido = COUNT(*) 
+		FROM Usuario 
+	WHERE IdUsuario = @IdUsuarioCompartido;
+
+	IF @IdAgenteEncontrado IS NULL
+		BEGIN
+			RAISERROR('Validación fallida: No existe un registro para el ID de Agente indicado.', 16, 1);
+			RETURN;
+		END
+
+	IF @ExisteUsuarioCompartido = 0
+		BEGIN
+			RAISERROR('Validación fallida: No existe un registro para el ID de Usuario indicado.', 16, 1);
+			RETURN;
+		END
+
+	-- si ambos existen: verificar que no se autocomparta su propio agente
+	IF @IdUsuarioCompartido = @IdUsuarioDueno
+		BEGIN
+			RAISERROR('Validación fallida: No es posible auto-compartirse un agente.', 16, 1);
+			RETURN;
+		END
+	
+	DECLARE @ExisteRegistroCompartido INT;
+	
+	SELECT @ExisteRegistroCompartido = COUNT(*)
+		FROM CompartirAgente
+	WHERE IdAgente = @IdAgente
+		  AND IdUsuarioCompartido = @IdUsuarioCompartido;
+
+	IF @ExisteRegistroCompartido > 0
+		BEGIN
+			RAISERROR('Validación fallida: El agente ya ha sido compartido al usuario indicado.', 16, 1);
+			RETURN;
+		END
+
+	BEGIN TRY
+		BEGIN TRANSACTION
+			
+			INSERT INTO CompartirAgente (IdAgente, IdUsuarioCompartido)
+				VALUES (@IdAgente, @IdUsuarioCompartido);
+		
+		COMMIT TRANSACTION;
+	
+	END TRY
+	BEGIN CATCH
+		
+		ROLLBACK TRANSACTION;
+		DECLARE @mensaje NVARCHAR(4000), @severidad INT, @estado INT;
+        SELECT @mensaje = ERROR_MESSAGE(),
+            @severidad = ERROR_SEVERITY(),
+            @estado = ERROR_STATE();
+        RAISERROR(@mensaje, @severidad, @estado);
+
+	END CATCH
+
+END;
+
+GO
+
+SELECT * FROM Usuario;
+SELECT * FROM Agente;
+SELECT * FROM CompartirAgente ORDER BY FechaAsignacion ASC;
+
+-- test 1. Compartir agente válido
+EXEC sp_Compartir_Agente 
+    @IdAgente = 1, 
+    @IdUsuarioCompartido = 6;
+
+-- test 2. Compartir con su propio dueño
+EXEC sp_Compartir_Agente 
+    @IdAgente = 1, 
+    @IdUsuarioCompartido = 1;
+
+-- test 3. Compartir agente ya compartido
+EXEC sp_Compartir_Agente 
+    @IdAgente = 1, 
+    @IdUsuarioCompartido = 6;
+
+-- test 4. Compartir con usuario inexistente
+EXEC sp_Compartir_Agente 
+    @IdAgente = 1, 
+    @IdUsuarioCompartido = 9999;
+
+-- test 5. Compartir agente inexistente
+EXEC sp_Compartir_Agente 
+    @IdAgente = 8888, 
+    @IdUsuarioCompartido = 2;
