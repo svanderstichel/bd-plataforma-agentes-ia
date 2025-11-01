@@ -13,6 +13,8 @@ AS
 BEGIN
 
     DECLARE @AgenteExistente INT;
+    DECLARE @IdAgente INT;
+    DECLARE @IdToolPython INT;
    
     -- Validar nombre único del agente para el usuario (ignorar mayúsculas/minúsculas)
     SELECT @AgenteExistente = COUNT(*) 
@@ -20,20 +22,30 @@ BEGIN
     WHERE A.IdUsuarioDueno = @IdUsuarioDueno 
         AND TRIM(LOWER(A.Nombre)) = TRIM(LOWER(@Nombre));
 
+    SELECT TOP 1 @IdToolPython = IdTool 
+        FROM Tool
+    WHERE Nombre = 'Python'
+
     -- Si todo sale bien, insertar el nuevo agente dentro de una transacción
     BEGIN TRY
-        BEGIN TRANSACTION CrearAgente
+        BEGIN TRANSACTION CrearAgente -- asigno un nombre a la transacción
 
             IF @AgenteExistente = 0
                 BEGIN
-                    DECLARE @IdAgente INT;
                     INSERT INTO Agente (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo)
                         VALUES (@IdUsuarioDueno, @Nombre, @Descripcion, @Instruccion, @Tipo);
                     
                     SET @IdAgente = SCOPE_IDENTITY();
 
-                    INSERT INTO AgenteTool (IdAgente, IdTool)
-                        VALUES(@IdAgente, 1);
+                    IF @IdToolPython IS NOT NULL
+                        BEGIN
+                            INSERT INTO AgenteTool (IdAgente, IdTool)
+                                VALUES (@IdAgente, @IdToolPython); -- insertar el id de la tool Python
+                        END;
+                    ELSE
+                        BEGIN
+                            PRINT 'Advertencia: la herramienta base "Python" no existe en la tabla Tool. El agente se creó sin herramientas.';
+                        END
 
                     SELECT @IdAgente AS IdAgenteCreado;
                 END
@@ -43,7 +55,6 @@ BEGIN
                     END
 
         COMMIT TRANSACTION CrearAgente;
-
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION CrearAgente;
@@ -53,7 +64,6 @@ BEGIN
             @estado = ERROR_STATE();
         RAISERROR(@mensaje, @severidad, @estado);
     END CATCH
-
 END;
 
 
@@ -69,9 +79,9 @@ EXEC sp_Crear_Agente @IdUsuarioDueno = 1,
 
 -- Test 2: Crear agente con datos válidos - Tipo simple
 EXEC sp_Crear_Agente @IdUsuarioDueno = 1, 
-@Nombre = 'Tutor .NET', 
-@Descripcion = 'Tutor experto en el ecosistema .NET',
-@Instruccion = 'Eres un asistente experto en el ecosistema .NET. Tu tarea es enseñar.',
+@Nombre = 'Tutor NestJS', 
+@Descripcion = 'Tutor experto en el ecosistema NestJS',
+@Instruccion = 'Eres un asistente experto en el ecosistema NestJS. Tu tarea es enseñar.',
 @Tipo = 'S';
 
 
@@ -81,4 +91,3 @@ EXEC sp_Crear_Agente @IdUsuarioDueno = 1,
 @Descripcion = 'Experto en nomenclatura médica',
 @Instruccion = 'Eres un asistente experto en nomenclatura médica.',
 @Tipo = 'A';
-

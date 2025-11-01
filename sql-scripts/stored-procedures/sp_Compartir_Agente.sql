@@ -6,7 +6,8 @@ GO
 CREATE PROCEDURE sp_Compartir_Agente
 	(
 	@IdAgente INT,
-	@IdUsuarioCompartido INT
+	@IdUsuarioCompartido INT,
+	@IdPermiso INT
 	)
 AS
 BEGIN
@@ -14,6 +15,7 @@ BEGIN
 	DECLARE @IdAgenteEncontrado INT;
 	DECLARE @ExisteUsuarioCompartido INT;
 	DECLARE @IdUsuarioDueno INT;
+	DECLARE @ExistePermiso INT;
 
 	-- verificar que tanto el usuario como el agente existan
 	SELECT @IdAgenteEncontrado = IdAgente, 
@@ -25,12 +27,22 @@ BEGIN
 		FROM Usuario 
 	WHERE IdUsuario = @IdUsuarioCompartido;
 
+	SELECT @ExistePermiso = COUNT(*)
+		FROM Permiso
+	WHERE IdPermiso = @IdPermiso;
+
 	IF @IdAgenteEncontrado IS NULL
 		BEGIN
 			RAISERROR('Validación fallida: No existe un registro para el ID de Agente indicado.', 16, 1);
 			RETURN;
 		END
 
+	IF @ExistePermiso = 0
+		BEGIN
+			RAISERROR('Validación fallida: No existe un registro para el ID de Permiso indicado.', 16, 1);
+			RETURN;
+		END
+	
 	IF @ExisteUsuarioCompartido = 0
 		BEGIN
 			RAISERROR('Validación fallida: No existe un registro para el ID de Usuario indicado.', 16, 1);
@@ -60,8 +72,8 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			
-			INSERT INTO CompartirAgente (IdAgente, IdUsuarioCompartido)
-				VALUES (@IdAgente, @IdUsuarioCompartido);
+			INSERT INTO CompartirAgente (IdAgente, IdUsuarioCompartido, IdPermiso)
+				VALUES (@IdAgente, @IdUsuarioCompartido,@IdPermiso);
 		
 		COMMIT TRANSACTION;
 	
@@ -88,24 +100,36 @@ SELECT * FROM CompartirAgente ORDER BY FechaAsignacion ASC;
 -- test 1. Compartir agente válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
-    @IdUsuarioCompartido = 6;
+    @IdUsuarioCompartido = 6,
+	@IdPermiso = 1;
 
 -- test 2. Compartir con su propio dueño
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
-    @IdUsuarioCompartido = 1;
+    @IdUsuarioCompartido = 1,
+	@IdPermiso = 1;
 
 -- test 3. Compartir agente ya compartido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
-    @IdUsuarioCompartido = 6;
+    @IdUsuarioCompartido = 6,
+	@IdPermiso = 1;
 
 -- test 4. Compartir con usuario inexistente
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
-    @IdUsuarioCompartido = 9999;
+    @IdUsuarioCompartido = 9999,
+	@IdPermiso = 1;
 
 -- test 5. Compartir agente inexistente
 EXEC sp_Compartir_Agente 
     @IdAgente = 8888, 
-    @IdUsuarioCompartido = 2;
+    @IdUsuarioCompartido = 2,
+	@IdPermiso = 1;
+
+
+-- test 6. Compartir agente con permiso inexistente
+EXEC sp_Compartir_Agente 
+    @IdAgente = 1, 
+    @IdUsuarioCompartido = 6,
+	@IdPermiso = 9999;
