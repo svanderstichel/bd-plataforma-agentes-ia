@@ -119,3 +119,56 @@ FROM AgenteArchivo;
 SELECT *
 FROM AgenteTool;
 
+GO
+---------------------------------------------------
+--  INSERTS  PARA PRUEBAS.
+
+-- Dato para probar duplicado en sp_Crear_Agente
+INSERT INTO Agente
+    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+VALUES
+    (2, 'Bot de Marketing', 'Analiza campañas de marketing', 'bot que analiza KPIs', 'A', '2025-10-25 10:00:00', '2025-10-25 10:00:00', 1);
+GO
+
+-- Dato para probar exclusión de Agente Inactivo (ID 12) en vistas
+INSERT INTO Agente
+    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+VALUES
+    (4, 'Agente Inactivo (Prueba Vistas)', 'Agente para testear filtros Activo=0', 'Instruccion', 'S', '2025-10-25 11:00:00', '2025-10-25 11:00:00', 0);
+GO
+
+-- Datos para probar shares múltiples en vw_Agentes_Compartidos
+INSERT INTO CompartirAgente
+    (IdAgente, IdUsuarioCompartido, FechaAsignacion)
+VALUES
+    (4, 1, '2025-10-25 13:00:00'), -- Agente 4 (de Sofia) compartido con Julian
+    (4, 6, '2025-10-25 13:01:00'); -- Agente 4 (de Sofia) compartido con Valeria
+GO
+
+-- Dato para probar Agente Activo sin Tools en vw_Agentes_Con_Tools
+INSERT INTO Agente
+    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+VALUES
+    (5, 'Agente Sin Herramientas', 'Agente para probar INNER JOIN', 'Instruccion', 'S', '2025-10-25 14:00:00', '2025-10-25 14:00:00', 1);
+GO
+
+-- Dato para probar fallo de Trigger en Agente Simple
+INSERT INTO Agente
+    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+VALUES
+    (6, 'Agente Simple (Prueba Trigger)', 'Agente tipo S para validar trigger', 'Instruccion', 'S', '2025-10-25 15:00:00', '2025-10-25 15:00:00', 1);
+GO
+
+-- Dato para probar éxito de Trigger en Agente Avanzado
+INSERT INTO Agente
+    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+VALUES
+    (1, 'Agente Avanzado (Prueba Trigger)', 'Agente tipo A para validar trigger', 'Instruccion', 'A', '2025-10-25 16:00:00', '2025-10-25 16:00:00', 1);
+GO
+
+-- Dato para probar éxito de Trigger (asignación a ID 15)
+INSERT INTO AgenteArchivo
+    (IdAgente, IdArchivo, FechaAsignacion)
+VALUES
+    (15, 4, '2025-10-25 16:01:00');
+GO
