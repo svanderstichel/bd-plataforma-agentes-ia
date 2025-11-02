@@ -98,5 +98,5 @@ A través de vistas y funciones, el sistema permite:
 
 ## 🧩 Diagrama de Entidad-Relación
 
-Para mejor visualización, visitar el siguiente enlace a **drawDB**:  
-👉 [Ver Diagrama en drawDB](https://www.drawdb.app/editor?shareId=4c04fc55a6fec4df6ac475f0fefcf4d9)
+<img width="944" height="835" alt="image" src="https://github.com/user-attachments/assets/dd3858d7-2977-47cf-a6ce-33c553f29a8e" />
+
