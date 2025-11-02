@@ -82,11 +82,11 @@ VALUES
     (5, '657d9c0e3f5a7b8te23f4f22');
 
 -- El adminitrador de la base de datos define los tipos de permisos posibles para compartir agentes
-INSERT INTO Permiso 
+INSERT INTO Permiso
     (IdPermiso, Nombre, Descripcion)
-VALUES 
-    (1,'Propietario','Este permiso otorga control total sobre el agente, pudiendo modificar sus instrucciones, tools y archivos.'),
-    (2,'Lectura','Este permiso otorga permiso solo de lectura con el agente, lo que permite establecer nuevas sesiones de chat');
+VALUES
+    (1, 'Propietario', 'Este permiso otorga control total sobre el agente, pudiendo modificar sus instrucciones, tools y archivos.'),
+    (2, 'Lectura', 'Este permiso otorga permiso solo de lectura con el agente, lo que permite establecer nuevas sesiones de chat');
 GO
 
 INSERT INTO CompartirAgente
@@ -134,7 +134,8 @@ FROM TipoArchivo;
 SELECT *
 FROM Tool;
 SELECT *
-FROM Agente WHERE Activo = 0;
+FROM Agente
+WHERE Activo = 0;
 SELECT *
 FROM Archivo;
 SELECT *
@@ -174,7 +175,8 @@ GO
 INSERT INTO CompartirAgente
     (IdAgente, IdUsuarioCompartido, IdPermiso, FechaAsignacion)
 VALUES
-    (4, 1, 2, '2025-10-25 13:00:00'), -- Agente 4 (de Sofia) compartido con Julian
+    (4, 1, 2, '2025-10-25 13:00:00'),
+    -- Agente 4 (de Sofia) compartido con Julian
     (4, 6, 2, '2025-10-25 13:01:00'); -- Agente 4 (de Sofia) compartido con Valeria
 GO
 

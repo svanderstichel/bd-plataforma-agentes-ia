@@ -33,9 +33,9 @@ CREATE TABLE TipoArchivo
 
 CREATE TABLE Permiso
 (
-	IdPermiso INT PRIMARY KEY NOT NULL,
-	Nombre NVARCHAR(50) NOT NULL UNIQUE,
-	Descripcion NVARCHAR(250) NOT NULL
+    IdPermiso INT PRIMARY KEY NOT NULL,
+    Nombre NVARCHAR(50) NOT NULL UNIQUE,
+    Descripcion NVARCHAR(250) NOT NULL
 );
 
 -- P = Predeterminada (son herramientas del sistema genéricas), 

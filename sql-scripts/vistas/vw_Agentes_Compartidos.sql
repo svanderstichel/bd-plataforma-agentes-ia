@@ -5,7 +5,7 @@ USE SistemaIA;
 GO
 CREATE OR ALTER VIEW vw_Agentes_Compartidos
 AS
-   SELECT Agente.Nombre AS NombreAgente,
+    SELECT Agente.Nombre AS NombreAgente,
         Dueño.Nombre AS UsuarioDueñoNombre,
         Compartido.Nombre AS UsuarioCompartidoNombre,
         Permiso.Nombre AS Permiso,
