@@ -72,14 +72,31 @@ VALUES
     (9, 1, '2025-10-22 14:05:00'),
     (4, 4, '2025-10-20 10:10:00');
 
-INSERT INTO CompartirAgente
-    (IdAgente, IdUsuarioCompartido, FechaAsignacion)
+INSERT INTO MongoDB_ChatHistorial
+    (IdChat, External_id)
 VALUES
-    (1, 2, '2025-09-01 10:00:00'),
-    (1, 3, '2025-09-10 11:30:00'),
-    (2, 4, '2025-10-01 15:45:00'),
-    (6, 1, '2025-08-05 09:00:00'),
-    (7, 5, '2025-07-05 13:00:00');
+    (1, '654a12f8b32c7f9d2a4b9f00'),
+    (2, '655b7a8c1d3e4f5a6b7c8d90'),
+    (3, '656c8b9d2e4f6a7b8c9d0e11'),
+    (4, '657d9c0e3f5a7b8c9d0e1f22'),
+    (5, '657d9c0e3f5a7b8te23f4f22');
+
+-- El adminitrador de la base de datos define los tipos de permisos posibles para compartir agentes
+INSERT INTO Permiso 
+    (IdPermiso, Nombre, Descripcion)
+VALUES 
+    (1,'Propietario','Este permiso otorga control total sobre el agente, pudiendo modificar sus instrucciones, tools y archivos.'),
+    (2,'Lectura','Este permiso otorga permiso solo de lectura con el agente, lo que permite establecer nuevas sesiones de chat');
+GO
+
+INSERT INTO CompartirAgente
+    (IdAgente, IdUsuarioCompartido, IdPermiso, FechaAsignacion)
+VALUES
+    (1, 2, 2, '2025-09-01 10:00:00'),
+    (1, 3, 2, '2025-09-10 11:30:00'),
+    (2, 4, 2, '2025-10-01 15:45:00'),
+    (6, 1, 2, '2025-08-05 09:00:00'),
+    (7, 5, 2, '2025-07-05 13:00:00');
 
 INSERT INTO AgenteArchivo
     (IdAgente, IdArchivo, FechaAsignacion)
@@ -99,6 +116,16 @@ VALUES
     (9, 5, '2025-09-10 13:00:00'),
     (6, 4, '2025-08-01 12:00:00');
 
+INSERT INTO AgenteHistorial
+    (IdAgente, InstruccionAnterior, FechaModificacion)
+VALUES
+    (1, 'Leer el archivo "Ventas_2025.csv" y calcular el total de ventas por mes.', '2025-11-02T09:00:00'),
+    (2, 'Resumir el documento PDF "Informe_Clientes.pdf" extrayendo los puntos clave.', '2025-11-02T10:15:00'),
+    (3, 'Combinar los archivos Excel "Stock_Producto.xlsx" y "Pedidos_Clientes.xlsx" para generar reporte consolidado.', '2025-11-02T11:30:00'),
+    (4, 'Extraer los correos electrónicos del archivo de texto "Contactos.txt" y guardarlos en una lista filtrada.', '2025-11-02T12:45:00'),
+    (5, 'Analizar el archivo JSON "Transacciones.json" para calcular estadísticas de ventas por categoría.', '2025-11-02T14:00:00');
+
+
 
 SELECT *
 FROM Usuario;
@@ -113,11 +140,17 @@ FROM Archivo;
 SELECT *
 FROM Chat;
 SELECT *
+FROM Permiso;
+SELECT *
 FROM CompartirAgente;
 SELECT *
 FROM AgenteArchivo;
 SELECT *
 FROM AgenteTool;
+SELECT *
+FROM MongoDB_ChatHistorial;
+SELECT *
+FROM AgenteHistorial;
 
 GO
 ---------------------------------------------------
@@ -139,10 +172,10 @@ GO
 
 -- Datos para probar shares múltiples en vw_Agentes_Compartidos
 INSERT INTO CompartirAgente
-    (IdAgente, IdUsuarioCompartido, FechaAsignacion)
+    (IdAgente, IdUsuarioCompartido, IdPermiso, FechaAsignacion)
 VALUES
-    (4, 1, '2025-10-25 13:00:00'), -- Agente 4 (de Sofia) compartido con Julian
-    (4, 6, '2025-10-25 13:01:00'); -- Agente 4 (de Sofia) compartido con Valeria
+    (4, 1, 2, '2025-10-25 13:00:00'), -- Agente 4 (de Sofia) compartido con Julian
+    (4, 6, 2, '2025-10-25 13:01:00'); -- Agente 4 (de Sofia) compartido con Valeria
 GO
 
 -- Dato para probar Agente Activo sin Tools en vw_Agentes_Con_Tools
@@ -172,3 +205,4 @@ INSERT INTO AgenteArchivo
 VALUES
     (15, 4, '2025-10-25 16:01:00');
 GO
+

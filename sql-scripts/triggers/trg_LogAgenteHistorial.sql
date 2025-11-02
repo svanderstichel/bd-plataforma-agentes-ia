@@ -9,10 +9,9 @@ BEGIN
     IF UPDATE(Instruccion) 
     BEGIN
         INSERT INTO AgenteHistorial
-            (IdAgente,Instruccion,Fecha)
+            (IdAgente,InstruccionAnterior,FechaModificacion)
         SELECT IdAgente, Instruccion, GETDATE()
         FROM deleted;
     END
-END;    
-
+END;
 

@@ -31,6 +31,12 @@ CREATE TABLE TipoArchivo
     Descripcion NVARCHAR(250)
 );
 
+CREATE TABLE Permiso
+(
+	IdPermiso INT PRIMARY KEY NOT NULL,
+	Nombre NVARCHAR(50) NOT NULL UNIQUE,
+	Descripcion NVARCHAR(250) NOT NULL
+);
 
 CREATE TABLE Tool
 (
@@ -104,10 +110,12 @@ CREATE TABLE CompartirAgente
 (
     IdAgente INT NOT NULL,
     IdUsuarioCompartido INT NOT NULL,
+    IdPermiso INT NOT NULL,
     FechaAsignacion DATETIME NOT NULL default GETDATE(),
 
     PRIMARY KEY (IdAgente, IdUsuarioCompartido),
     FOREIGN KEY (IdAgente) REFERENCES Agente(IdAgente),
+    FOREIGN KEY (IdPermiso) REFERENCES Permiso(IdPermiso),
     FOREIGN KEY (IdUsuarioCompartido) REFERENCES Usuario(IdUsuario)
 );
 
@@ -132,4 +140,27 @@ CREATE TABLE AgenteTool
     FOREIGN KEY (IdAgente) REFERENCES Agente(IdAgente),
     FOREIGN KEY (IdTool) REFERENCES Tool(IdTool)
 );
+
+CREATE TABLE AgenteHistorial
+(
+    IdHistorial INT PRIMARY KEY IDENTITY(1,1),
+    IdAgente INT NOT NULL,
+    InstruccionAnterior NVARCHAR(MAX),
+    FechaModificacion DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY (IdAgente) REFERENCES Agente(IdAgente)
+);
+
+CREATE TABLE MongoDB_ChatHistorial
+(
+    IdChat INT NOT NULL,
+    External_id NVARCHAR(24) NOT NULL,
+    BaseDatos NVARCHAR(20) DEFAULT 'SistemaIA',
+    Coleccion NVARCHAR(20) DEFAULT 'ChatHistorial',
+    UltimaSincronizacion DATETIME DEFAULT GETDATE(),
+
+    PRIMARY KEY (IdChat, External_id),
+    FOREIGN KEY (IdChat) REFERENCES Chat(IdChat)
+);
+
 GO
