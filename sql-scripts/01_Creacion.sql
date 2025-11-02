@@ -38,6 +38,9 @@ CREATE TABLE Permiso
 	Descripcion NVARCHAR(250) NOT NULL
 );
 
+-- P = Predeterminada (son herramientas del sistema genéricas), 
+-- E = Especializada (son herramientas específicas para una tarea concreta, por ejemplo, una
+-- herramienta especializada en generar resúmenes de CV para una empresa de RRHH)
 CREATE TABLE Tool
 (
     IdTool INT PRIMARY KEY IDENTITY (1, 1),
@@ -46,8 +49,6 @@ CREATE TABLE Tool
     Tipo CHAR(1) NOT NULL,
 
     CONSTRAINT CHK_Tool_Tipo CHECK (Tipo IN ('P', 'E'))
-    -- P = Predeterminada (se asigna por default al crear un agente), 
-    -- E = Especializada (el usuario las asigna como tools extra a sus agentes)
 );
 
 

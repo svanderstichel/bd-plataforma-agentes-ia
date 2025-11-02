@@ -95,37 +95,38 @@ GO
 
 SELECT * FROM Usuario;
 SELECT * FROM Agente;
-SELECT * FROM CompartirAgente ORDER BY FechaAsignacion ASC;
+SELECT * FROM CompartirAgente ORDER BY FechaAsignacion DESC;
+SELECT * FROM Permiso;
 
--- test 1. Compartir agente válido
+-- test 1. Compartir agente válido con permiso válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
     @IdUsuarioCompartido = 6,
-	@IdPermiso = 1;
+	@IdPermiso = 2;
 
--- test 2. Compartir con su propio dueño
+-- test 2. Compartir con su propio dueño con permiso válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
     @IdUsuarioCompartido = 1,
 	@IdPermiso = 1;
 
--- test 3. Compartir agente ya compartido
+-- test 3. Compartir agente ya compartido con permiso válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
     @IdUsuarioCompartido = 6,
-	@IdPermiso = 1;
+	@IdPermiso = 2;
 
--- test 4. Compartir con usuario inexistente
+-- test 4. Compartir con usuario inexistente con permiso válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 1, 
     @IdUsuarioCompartido = 9999,
-	@IdPermiso = 1;
+	@IdPermiso = 2;
 
--- test 5. Compartir agente inexistente
+-- test 5. Compartir agente inexistente con permiso válido
 EXEC sp_Compartir_Agente 
     @IdAgente = 8888, 
     @IdUsuarioCompartido = 2,
-	@IdPermiso = 1;
+	@IdPermiso = 2;
 
 
 -- test 6. Compartir agente con permiso inexistente
