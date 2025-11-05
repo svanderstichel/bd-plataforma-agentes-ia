@@ -42,9 +42,9 @@ VALUES
     (1, 'Generador de Titulos', 'Redacta asuntos de email.', 'Usa un tono atractivo.', 'S', '2025-06-25 09:00:00', '2025-10-20 14:00:00', 1),
     (2, 'Bot de Soporte Nivel 1', 'Responde FAQs.', 'Se siempre formal.', 'S', '2024-12-01 17:00:00', '2025-05-01 12:00:00', 1),
     (2, 'Agente de Automatizacion CRM', 'Actualiza contactos automaticamente.', 'Procesa datos solo si estan completos.', 'S', '2025-01-10 08:00:00', '2025-10-22 09:00:00', 1),
-    (4, 'Asistente de Presentaciones', 'Crea borradores de slides.', 'Manten la estructura limpia.', 'A', '2025-03-20 14:00:00', '2025-09-01 16:00:00', 1),
+    (4, 'Asistente de Presentaciones', 'Crea borradores de slides.', 'Manten la estructura limpia.', 'S', '2025-03-20 14:00:00', '2025-09-01 16:00:00', 1),
     (5, 'Agente Legal', 'Revisa contratos.', 'Identifica clausulas de riesgo.', 'S', '2024-08-01 10:00:00', '2025-10-10 08:00:00', 0),
-    (6, 'Bot de Soporte Nivel 2', 'Escala tickets dificiles.', 'Proporciona contexto completo.', 'A', '2025-07-01 11:00:00', '2025-10-21 11:00:00', 1),
+    (6, 'Bot de Soporte Nivel 2', 'Escala tickets dificiles.', 'Proporciona contexto completo.', 'S', '2025-07-01 11:00:00', '2025-10-21 11:00:00', 1),
     (6, 'Agente de Integracion API', 'Mueve datos entre sistemas.', 'Asegura la trazabilidad.', 'S', '2025-07-05 13:00:00', '2025-10-22 13:00:00', 1),
     (1, 'Agente Financiero', 'Calcula proyecciones.', 'Usa tasa de descuento del 10%.', 'A', '2025-08-20 15:00:00', '2025-10-22 14:00:00', 1),
     (2, 'Agente de Archivo', 'Clasifica documentos viejos.', 'Usa el tipo de archivo como tag.', 'S', '2025-09-01 16:00:00', '2025-10-22 15:00:00', 1);
@@ -104,8 +104,7 @@ VALUES
     (1, 1, '2025-10-01 10:30:00'),
     (1, 2, '2025-10-15 10:15:00'),
     (4, 8, '2025-08-05 14:00:00'),
-    (6, 5, '2025-08-01 11:00:00'),
-    (9, 6, '2025-08-20 15:05:00');
+    (6, 5, '2025-08-01 11:00:00');
 
 INSERT INTO AgenteTool
     (IdAgente, IdTool, FechaAsignacion)

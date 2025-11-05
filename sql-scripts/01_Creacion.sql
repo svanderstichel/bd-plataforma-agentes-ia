@@ -1,4 +1,12 @@
-﻿CREATE DATABASE SistemaIA
+﻿USE master;
+
+GO
+
+DROP DATABASE IF EXISTS SistemaIA;
+
+GO
+
+CREATE DATABASE SistemaIA
 GO
 
 USE SistemaIA;
