@@ -1,14 +1,3 @@
---sp_Registrar_Archivo_En_Agente
-
-
-
---6)Insertar un nuevo registro en AgenteArchivo con la fecha actual (GETDATE()).
-
---7)Confirmar la inserción mostrando un mensaje que indique el éxito de la operación y, opcionalmente, el número de filas afectadas.
-
---8)Probar el procedimiento con tres casos: agente válido de tipo 'A', agente inválido de tipo 'S', y combinación duplicada.
-
---9)Verificar que los mensajes de error sean claros y que la integridad de los datos se mantenga.
 USE SistemaIA;
 GO
 CREATE OR ALTER PROCEDURE sp_Registrar_Archivo_En_Agente(
