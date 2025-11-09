@@ -36,14 +36,14 @@ GO
 EXEC sp_Crear_Agente 1,'Prueba','Descripcion Prueba','Instruccion Prueba','A'
 
 --Test 1:Agente activo válido. Debe desactivarse correctamente.
-SELECT IdAgente, Activo
+SELECT IdAgente, Activo, FechaUltimaModificacion
 FROM Agente
 WHERE Activo = 1;
 
 EXEC sp_Desactivar_Agente 18;
 
 --Test 2: Agente ya inactivo.Mostrar mensaje de error.
-SELECT IdAgente, Activo
+SELECT IdAgente, Activo, FechaUltimaModificacion
 FROM Agente
 WHERE Activo = 0;
 
