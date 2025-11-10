@@ -1,7 +1,7 @@
 use SistemaIA;
 
 //  creación de la colección de chats
-db.createCollection("ChatHistorial");
+db.createCollection("chats");
 
 // datos de test tomando los datos que tenemos en el script Datos.sql
 db.chats.insertMany([
