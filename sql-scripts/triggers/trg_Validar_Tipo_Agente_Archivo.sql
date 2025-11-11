@@ -20,7 +20,7 @@ BEGIN
         SELECT 1
         FROM Agente AS A
         JOIN inserted AS i ON A.IdAgente = i.IdAgente
-        WHERE RTRIM(A.Tipo) = 'S' 
+        WHERE RTRIM(UPPER(A.Tipo)) = 'S' 
     )
     BEGIN
         -- Si es 'S', lanza error y cancela

@@ -1,128 +1,147 @@
 ﻿USE SistemaIA;
 GO
 
-INSERT INTO Usuario
-    (Nombre, Email, Contrasena, FechaCreacion, FechaUltimaConexion, Activo)
+INSERT INTO Usuario (Nombre, Email, Contrasena, FechaCreacion, FechaUltimaConexion, Activo)
 VALUES
-    ('Julian Mondillo', 'juli.mondi@hotmail.com', 'Julian01-55', '2024-06-10 10:00:00', '2025-10-20 14:30:00', 1),
-    ('Sofia Gomez', 'sofiagomez@hotmail.com', 'sOfiGomez33_', '2024-11-20 15:30:00', '2025-10-15 09:15:00', 1),
-    ('Juan Lopez', 'juancito_lopez@gmail.com', 'BocaYoTeAmo123', '2025-05-01 18:00:00', '2025-05-01 18:00:00', 0),
-    ('Florencia Perez', 'flor_perez@hotmail.com', 'Florperez11-', '2025-01-05 08:30:00', '2025-02-10 11:00:00', 1),
-    ('Ricardo Castro', 'ricardo.castro@gmail.com', 'Richard112895215', '2023-12-01 20:00:00', '2024-06-15 12:00:00', 1),
-    ('Valeria Torres', 'vale_torres@hotmail.com', 'Maipu2255', '2025-03-10 14:00:00', '2025-09-01 17:00:00', 1);
+    ('Julian Mondillo', 'julian.mondillo@example.com', 'Julian01-55', '2024-06-10', '2025-11-01', 1),
+    ('Sofia Gomez', 'sofia.gomez@example.com', 'SofiGomez33_', '2024-11-20', '2025-11-01', 1),
+    ('Valeria Torres', 'valeria.torres@example.com', 'ValeT22-', '2025-02-10', '2025-11-01', 1);
 
-INSERT INTO TipoArchivo
-    (Nombre, Descripcion)
+GO
+
+INSERT INTO TipoArchivo (Nombre, Descripcion)
 VALUES
-    ('PDF', 'Documento portatil.'),
-    ('CSV', 'Datos tabulares.'),
-    ('JPG', 'Archivo de imagen.'),
-    ('DOCX', 'Documento Word.'),
-    ('XLSX', 'Hoja de calculo Excel.');
+    ('PDF', 'Documento portátil'),
+    ('CSV', 'Archivo de datos tabulares'),
+    ('XLSX', 'Hoja de cálculo Excel'),
+    ('JPG', 'Archivo de imagen');
+
+GO
 
 -- P = Predeterminadas (nativas del sistema) / E = Especializadas (para propósitos concretos)
-INSERT INTO Tool
-    (Nombre, Descripcion, Tipo)
+INSERT INTO Tool (Nombre, Descripcion, Tipo)
 VALUES
-    ('Python', 'Permite el análisis de Excel, cálculos complejos y automatizaciones con scripts.', 'P'),
-    ('Image Vision', 'Procesa y analiza imágenes, permitiendo leer texto o detectar elementos visuales.', 'P'),
-    ('Audio to Text', 'Convierte audios en texto mediante reconocimiento de voz.', 'P'),
-    ('Video to Audio/Text', 'Extrae audio o genera transcripciones a partir de videos.', 'P'),
-    ('Scrapping y Búsqueda Web', 'Automatiza búsquedas y extracción de información desde la web.', 'P'),
-    ('Code Generator', 'Genera fragmentos de código o scripts a partir de descripciones naturales.', 'E'),
-    ('CV Analyzer', 'Analiza currículums y detecta coincidencias con perfiles buscados.', 'E'),
-    ('Sentiment Classifier', 'Evalúa el tono emocional o la intención de textos y respuestas.', 'E'),
-    ('Financial Forecaster', 'Realiza proyecciones financieras usando modelos entrenados.', 'E'),
-    ('Medical Data Extractor', 'Extrae información estructurada desde informes o registros médicos.', 'E');
+    ('Python', 'Herramienta predeterminada para scripts y análisis de datos.', 'P'),
+    ('Web Scraper', 'Extrae información de sitios web.', 'P'),
+    ('CV Analyzer', 'Analiza currículums y genera perfiles.', 'E'),
+    ('Sentiment Analyzer', 'Evalúa tono y sentimiento de textos.', 'E');
+GO
 
-INSERT INTO Agente
-    (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
+INSERT INTO Agente (IdUsuarioDueno, Nombre, Descripcion, Instruccion, Tipo, FechaCreacion, FechaUltimaModificacion, Activo)
 VALUES
-    (1, 'Asistente Contable', 'Prepara balances e informes.', 'Sigue la normativa contable.', 'A', '2025-05-15 11:30:00', '2025-10-15 10:00:00', 1),
-    (1, 'Generador de Titulos', 'Redacta asuntos de email.', 'Usa un tono atractivo.', 'S', '2025-06-25 09:00:00', '2025-10-20 14:00:00', 1),
-    (2, 'Bot de Soporte Nivel 1', 'Responde FAQs.', 'Se siempre formal.', 'S', '2024-12-01 17:00:00', '2025-05-01 12:00:00', 1),
-    (2, 'Agente de Automatizacion CRM', 'Actualiza contactos automaticamente.', 'Procesa datos solo si estan completos.', 'S', '2025-01-10 08:00:00', '2025-10-22 09:00:00', 1),
-    (4, 'Asistente de Presentaciones', 'Crea borradores de slides.', 'Manten la estructura limpia.', 'S', '2025-03-20 14:00:00', '2025-09-01 16:00:00', 1),
-    (5, 'Agente Legal', 'Revisa contratos.', 'Identifica clausulas de riesgo.', 'S', '2024-08-01 10:00:00', '2025-10-10 08:00:00', 0),
-    (6, 'Bot de Soporte Nivel 2', 'Escala tickets dificiles.', 'Proporciona contexto completo.', 'S', '2025-07-01 11:00:00', '2025-10-21 11:00:00', 1),
-    (6, 'Agente de Integracion API', 'Mueve datos entre sistemas.', 'Asegura la trazabilidad.', 'S', '2025-07-05 13:00:00', '2025-10-22 13:00:00', 1),
-    (1, 'Agente Financiero', 'Calcula proyecciones.', 'Usa tasa de descuento del 10%.', 'A', '2025-08-20 15:00:00', '2025-10-22 14:00:00', 1),
-    (2, 'Agente de Archivo', 'Clasifica documentos viejos.', 'Usa el tipo de archivo como tag.', 'S', '2025-09-01 16:00:00', '2025-10-22 15:00:00', 1);
+    (1, 'Asistente Contable', 'Prepara balances y reportes.', 'Analiza archivos financieros CSV y XLSX.', 'A', '2025-09-01', '2025-11-01', 1),
+    (1, 'Bot de Ventas', 'Responde consultas de ventas.', 'Accede a reportes internos.', 'S', '2025-09-05', '2025-11-01', 1),
+    (1, 'Generador de Contratos', 'Crea modelos de contrato base.', 'Usa plantillas PDF.', 'A', '2025-09-10', '2025-11-01', 1),
+    (2, 'Asistente de Soporte', 'Resuelve tickets simples.', 'Ayuda con preguntas frecuentes.', 'S', '2025-09-02', '2025-11-01', 1),
+    (2, 'Analista de Documentos', 'Lee y resume PDFs.', 'Procesa archivos PDF y DOCX.', 'A', '2025-09-12', '2025-11-01', 1),
+    (2, 'Bot de Entrenamiento', 'Da feedback a nuevos empleados.', 'Usa mensajes predefinidos.', 'S', '2025-09-20', '2025-11-01', 1),
+    (3, 'Agente Legal', 'Revisa cláusulas contractuales.', 'Analiza texto legal.', 'A', '2025-09-03', '2025-11-01', 1),
+    (3, 'Asistente de Imagen', 'Gestiona archivos visuales.', 'Clasifica imágenes JPG.', 'S', '2025-09-08', '2025-11-01', 1),
+    (3, 'Gestor de Comunicaciones', 'Supervisa correos y reportes.', 'Evalúa tono de respuesta.', 'A', '2025-09-15', '2025-11-01', 1);
 
-INSERT INTO Archivo
-    (IdUsuarioDueno, IdTipoArchivo, Nombre, FechaSubida, Peso, Ruta)
+GO
+
+INSERT INTO Archivo (IdUsuarioDueno, IdTipoArchivo, Nombre, FechaSubida, Peso, Ruta)
 VALUES
-    (1, 1, 'Estatuto_Social_SRL.pdf', '2025-09-05 16:35:00', 5200000, 'C:/Archivos/Legales/Estatuto_Social_SRL.pdf'),
-    (1, 2, 'Datos_Ventas_2024.csv', '2025-10-15 10:10:00', 120000, 'https://s3.amazonaws.com/empresa-datos/ventas/Datos_Ventas_2024.csv'),
-    (2, 3, 'Recibo_Sueldo_Sept.jpg', '2024-12-25 14:50:00', 85000, 'C:/Usuarios/Sofia/Recibos/Recibo_Sueldo_Sept.jpg'),
-    (4, 1, 'Certificado_Vigencia.pdf', '2025-01-30 08:05:00', 3100000, 'https://s3.amazonaws.com/legales/documentos/Certificado_Vigencia.pdf'),
-    (5, 4, 'Borrador_Contrato.docx', '2024-03-01 11:00:00', 45000, 'C:/Contratos/Borradores/Borrador_Contrato.docx'),
-    (5, 5, 'Proyeccion_2025.xlsx', '2024-07-20 09:00:00', 800000, 'https://s3.amazonaws.com/finanzas/Proyeccion_2025.xlsx'),
-    (6, 1, 'Manual_Cliente.pdf', '2025-05-10 13:00:00', 6500000, 'C:/Clientes/Documentacion/Manual_Cliente.pdf'),
-    (1, 2, 'Leads_Agosto.csv', '2025-08-01 10:00:00', 250000, 'https://s3.amazonaws.com/marketing/leads/Leads_Agosto.csv'),
-    (2, 3, 'Logo_Empresa.jpg', '2025-09-01 15:00:00', 150000, 'C:/Imagenes/Logo_Empresa.jpg'),
-    (4, 4, 'Informe_Tecnico.docx', '2025-10-20 11:00:00', 78000, 'https://s3.amazonaws.com/tecnica/informes/Informe_Tecnico.docx');
+    (1, 2, 'Ventas_Q3_2025.csv', '2025-10-15', 120000, 'C:/Empresa/Ventas/Ventas_Q3_2025.csv'),
+    (1, 3, 'Balance_Anual_2024.xlsx', '2025-10-10', 180000, 'C:/Empresa/Finanzas/Balance_Anual_2024.xlsx'),
+    (2, 1, 'Manual_Usuario.pdf', '2025-10-12', 500000, 'C:/Docs/Manual_Usuario.pdf'),
+    (3, 4, 'Logo_Proyecto.jpg', '2025-10-18', 95000, 'C:/Imagenes/Logo_Proyecto.jpg'),
+    (3, 1, 'Politica_Privacidad.pdf', '2025-10-20', 300000, 'C:/Legal/Politica_Privacidad.pdf');
 
-INSERT INTO Chat
-    (IdAgente, IdUsuario, FechaCreacion)
+GO
+
+INSERT INTO Chat (IdAgente, IdUsuario, FechaCreacion)
 VALUES
-    (1, 1, '2025-10-20 14:40:00'),
-    (3, 2, '2025-10-21 09:20:00'),
-    (7, 6, '2025-10-22 11:00:00'),
-    (9, 1, '2025-10-22 14:05:00'),
-    (4, 4, '2025-10-20 10:10:00');
+    (1, 1, '2025-10-25 10:00:00'),
+    (1, 1, '2025-10-26 11:00:00'),
+    (2, 1, '2025-10-27 09:00:00'),
+    (3, 1, '2025-10-28 15:00:00'),
+    (3, 1, '2025-10-29 16:30:00'),
+    (4, 2, '2025-10-25 09:30:00'),
+    (5, 2, '2025-10-26 14:00:00'),
+    (5, 2, '2025-10-27 14:30:00'),
+    (6, 2, '2025-10-28 10:00:00'),
+    (7, 3, '2025-10-25 13:00:00'),
+    (8, 3, '2025-10-26 09:00:00'),
+    (9, 3, '2025-10-27 11:00:00'),
+    (9, 3, '2025-10-28 12:15:00');
 
-INSERT INTO MongoDB_ChatHistorial
-    (IdChat, External_id)
+GO
+
+INSERT INTO MongoDB_ChatHistorial (IdChat, External_id)
 VALUES
     (1, '654a12f8b32c7f9d2a4b9f00'),
-    (2, '655b7a8c1d3e4f5a6b7c8d90'),
-    (3, '656c8b9d2e4f6a7b8c9d0e11'),
-    (4, '657d9c0e3f5a7b8c9d0e1f22'),
-    (5, '657d9c0e3f5a7b8te23f4f22');
+    (2, '654a12f8b32c7f9d2a4b9f01'),
+    (3, '654a12f8b32c7f9d2a4b9f02'),
+    (4, '654a12f8b32c7f9d2a4b9f03'),
+    (5, '654a12f8b32c7f9d2a4b9f04'),
+    (6, '654a12f8b32c7f9d2a4b9f05'),
+    (7, '654a12f8b32c7f9d2a4b9f06'),
+    (8, '654a12f8b32c7f9d2a4b9f07'),
+    (9, '654a12f8b32c7f9d2a4b9f08'),
+    (10, '654a12f8b32c7f9d2a4b9f09'),
+    (11, '654a12f8b32c7f9d2a4b9f10'),
+    (12, '654a12f8b32c7f9d2a4b9f11'),
+    (13, '654a12f8b32c7f9d2a4b9f12');
+
+GO
 
 -- El adminitrador de la base de datos define los tipos de permisos posibles para compartir agentes
-INSERT INTO Permiso
-    (IdPermiso, Nombre, Descripcion)
+INSERT INTO Permiso (IdPermiso, Nombre, Descripcion)
 VALUES
-    (1, 'Propietario', 'Este permiso otorga control total sobre el agente, pudiendo modificar sus instrucciones, tools y archivos.'),
-    (2, 'Lectura', 'Este permiso otorga permiso solo de lectura con el agente, lo que permite establecer nuevas sesiones de chat');
+    (1, 'Propietario', 'Permite control total sobre el agente.'),
+    (2, 'Lectura', 'Permite interactuar con el agente sin modificarlo.');
+
 GO
 
 INSERT INTO CompartirAgente
     (IdAgente, IdUsuarioCompartido, IdPermiso, FechaAsignacion)
 VALUES
-    (1, 2, 2, '2025-09-01 10:00:00'),
-    (1, 3, 2, '2025-09-10 11:30:00'),
-    (2, 4, 2, '2025-10-01 15:45:00'),
-    (6, 1, 2, '2025-08-05 09:00:00'),
-    (7, 5, 2, '2025-07-05 13:00:00');
+    (1, 2, 2, '2025-10-30'),
+    (3, 3, 2, '2025-10-30'),
+    (5, 1, 2, '2025-10-31'),
+    (7, 1, 2, '2025-10-31'),
+    (9, 2, 2, '2025-10-31');
+
+GO
 
 INSERT INTO AgenteArchivo
     (IdAgente, IdArchivo, FechaAsignacion)
 VALUES
     (1, 1, '2025-10-01 10:30:00'),
     (1, 2, '2025-10-15 10:15:00'),
-    (4, 8, '2025-08-05 14:00:00'),
-    (6, 5, '2025-08-01 11:00:00');
+    (3, 2, '2025-08-05 14:00:00'),
+    (5, 3, '2025-08-01 11:00:00'),
+    (7, 5, GETDATE()),
+    (9, 4, GETDATE());
 
-INSERT INTO AgenteTool
-    (IdAgente, IdTool, FechaAsignacion)
+GO
+
+INSERT INTO AgenteTool (IdAgente, IdTool)
 VALUES
-    (1, 2, '2025-09-01 09:30:00'),
-    (3, 1, '2025-08-15 14:00:00'),
-    (8, 3, '2025-09-05 10:00:00'),
-    (9, 5, '2025-09-10 13:00:00'),
-    (6, 4, '2025-08-01 12:00:00');
+    (1, 1), (1, 2),
+    (2, 1),
+    (3, 1), (3, 3),
+    (4, 1),
+    (5, 1), (5, 4),
+    (6, 1),
+    (7, 1), (7, 3),
+    (8, 1),
+    (9, 1), (9, 4);
+
+GO
 
 INSERT INTO AgenteHistorial
     (IdAgente, InstruccionAnterior, FechaModificacion)
 VALUES
-    (1, 'Leer el archivo "Ventas_2025.csv" y calcular el total de ventas por mes.', '2025-11-02T09:00:00'),
-    (2, 'Resumir el documento PDF "Informe_Clientes.pdf" extrayendo los puntos clave.', '2025-11-02T10:15:00'),
-    (3, 'Combinar los archivos Excel "Stock_Producto.xlsx" y "Pedidos_Clientes.xlsx" para generar reporte consolidado.', '2025-11-02T11:30:00'),
-    (4, 'Extraer los correos electrónicos del archivo de texto "Contactos.txt" y guardarlos en una lista filtrada.', '2025-11-02T12:45:00'),
-    (5, 'Analizar el archivo JSON "Transacciones.json" para calcular estadísticas de ventas por categoría.', '2025-11-02T14:00:00');
+    (1, 'Analizaba archivos XLSX y devolvía promedios antes de la modificación.', '2025-10-20'),
+    (3, 'Versión previa sin cláusula de confidencialidad.', '2025-10-22'),
+    (5, 'Extraía solo metadatos del PDF, sin resumen textual.', '2025-10-24'),
+    (7, 'Instrucción original antes de incluir revisión de párrafos legales.', '2025-10-25'),
+    (9, 'Analizaba tono general antes de incluir clasificación de sentimiento.', '2025-10-26');
+
+GO
 
 
 

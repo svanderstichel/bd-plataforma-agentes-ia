@@ -100,9 +100,9 @@ SELECT * FROM Permiso;
 
 -- test 1. Compartir agente válido con permiso válido
 EXEC sp_Compartir_Agente 
-    @IdAgente = 1, 
-    @IdUsuarioCompartido = 6,
-	@IdPermiso = 2;
+    @IdAgente = 6, 
+    @IdUsuarioCompartido = 1,
+	@IdPermiso = 1;
 
 -- test 2. Compartir con su propio dueño con permiso válido
 EXEC sp_Compartir_Agente 
@@ -134,3 +134,28 @@ EXEC sp_Compartir_Agente
     @IdAgente = 1, 
     @IdUsuarioCompartido = 6,
 	@IdPermiso = 9999;
+
+
+
+SELECT * FROM Agente
+
+
+select * from Usuario
+
+
+SELECT * From CompartirAgente
+
+SELECT IdAgente, Nombre, Descripcion, Tipo
+    FROM Agente
+    WHERE IdUsuarioDueno = 1 
+	AND Activo = 1
+    ORDER BY Nombre ASC;
+
+
+SELECT *
+    FROM Agente
+    LEFT JOIN CompartirAgente ON Agente.IdAgente = CompartirAgente.IdAgente
+    WHERE Agente.IdUsuarioDueno = 1 
+	AND CompartirAgente.IdUsuarioCompartido = 1
+	AND Activo = 1
+ORDER BY Nombre ASC;

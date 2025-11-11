@@ -1,4 +1,4 @@
-
+-- Procedimiento que permite asociar una herramienta a un agente (NO aplica a la herramienta pro defecto Python)
 USE SistemaIA;
 GO
 
