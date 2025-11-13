@@ -94,10 +94,12 @@ namespace SistemaIA.UI.Webforms.Pages
         protected void ddlTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
             pnlArchivos.Visible = ddlTipo.SelectedValue == "A";
+            pnlError.Visible = false;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            pnlError.Visible = false;
             try
             {
                 int idAgente = int.Parse(hdnIdAgente.Value);
