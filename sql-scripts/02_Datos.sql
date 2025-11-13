@@ -225,4 +225,3 @@ INSERT INTO AgenteArchivo
 VALUES
     (15, 4, '2025-10-25 16:01:00');
 GO
-
