@@ -33,24 +33,24 @@ END;
 
 GO
 
-EXEC sp_Crear_Agente 1,'Prueba','Descripcion Prueba','Instruccion Prueba','A'
+EXEC sp_Crear_Agente 2,'Prueba','Descripcion Prueba','Instruccion Prueba','A';
 
 --Test 1:Agente activo válido. Debe desactivarse correctamente.
+
+EXEC sp_Desactivar_Agente 40;
+
 SELECT IdAgente, Activo, FechaUltimaModificacion
 FROM Agente
-WHERE Activo = 1;
-
-EXEC sp_Desactivar_Agente 18;
+WHERE IdAgente = 40;
 
 --Test 2: Agente ya inactivo.Mostrar mensaje de error.
-SELECT IdAgente, Activo, FechaUltimaModificacion
-FROM Agente
-WHERE Activo = 0;
 
-EXEC sp_Desactivar_Agente 18;
+EXEC sp_Desactivar_Agente 40;
 
 --Test 3: IdAgente inexistente. Mostrar mensaje de error.
 SELECT IdAgente
-FROM Agente;
+FROM Agente
+WHERE IdAgente = 41;
 
-EXEC sp_Desactivar_Agente 19;
+EXEC sp_Desactivar_Agente 41;
+

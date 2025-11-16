@@ -54,28 +54,24 @@ BEGIN
         RETURN;
     END
 
-    BEGIN TRY
-        BEGIN TRANSACTION    
-            INSERT INTO AgenteArchivo
+    BEGIN TRY 
+        INSERT INTO AgenteArchivo
         (IdAgente,IdArchivo,FechaAsignacion)
     VALUES
         (@IdAgente, @IdArchivo, GETDATE());
-            PRINT ('Operacion exitosa.');
-        COMMIT TRANSACTION
+        PRINT ('Operacion exitosa.');
     END TRY      
     BEGIN CATCH
-        IF @@TRANCOUNT > 0
-        BEGIN
-        ROLLBACK TRANSACTION;
         PRINT ('Operacion anulada.');
-    END    
     END CATCH
 END;
 
 --Test 1: Validacion de existencia de agente en la tabla Agente.
+
 SELECT *
 FROM Agente
 WHERE IdAgente = 50;
+
 EXEC sp_Registrar_Archivo_En_Agente 50,5;
 
 --Test 2: Validacion de tipo de agente 'A'.
@@ -93,21 +89,36 @@ EXEC sp_Registrar_Archivo_En_Agente 5,50;
 --Test 4: Verificar que no exista un registro duplicado en AgenteArchivo para la misma combinación de IdAgente e IdArchivo.
 SELECT *
 FROM AgenteArchivo
-WHERE IdAgente = 15 AND IdArchivo = 4;
-EXEC sp_Registrar_Archivo_En_Agente 15,4;
+WHERE IdAgente = 14 AND IdArchivo = 3;
+EXEC sp_Registrar_Archivo_En_Agente 14,3;
 
 --Test 5: Ingreso de nuevo registro en tabla AgenteArchivo
 SELECT *
 FROM AgenteArchivo
-WHERE IdAgente = 5 AND IdArchivo = 5;
+WHERE IdAgente = 9 AND IdArchivo = 6;
 
-EXEC sp_Registrar_Archivo_En_Agente 5,5;
+EXEC sp_Registrar_Archivo_En_Agente 9,6;
 
 SELECT *
 FROM AgenteArchivo
-WHERE IdAgente = 5 AND IdArchivo = 5;
+WHERE IdAgente = 9 AND IdArchivo = 6;
 
-DELETE FROM AgenteArchivo WHERE IdAgente = 5 AND IdArchivo = 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -7,14 +7,14 @@ GO
 
 CREATE OR ALTER VIEW vw_Agentes_Compartidos
 AS
-    SELECT 
+    SELECT
         Ag.IdAgente,
         Ag.IdUsuarioDueno,
         Dueno.Nombre AS UsuarioDueno,
         Compartido.IdUsuarioCompartido,
         CompartidoU.Nombre AS UsuarioCompartido,
         P.Nombre AS Permiso,
-        Compartido.FechaAsignacion AS FechaComparticion,
+        Compartido.FechaAsignacion AS FechaCompartido,
         Ag.Nombre AS NombreAgente,
         Ag.Tipo,
         Ag.Descripcion
@@ -26,15 +26,16 @@ AS
     WHERE Ag.Activo = 1;
 GO
 
-
 -- test
 SELECT *
 FROM vw_Agentes_Compartidos;
 
--- test ver agentes compartidos conmigo
-SELECT * FROM vw_Agentes_Compartidos 
-WHERE IdUsuarioCompartido = 1;
+-- test ver agentes que se compartío como dueño (propietario)
+SELECT *
+FROM vw_Agentes_Compartidos
+WHERE IdUsuarioDueno = 2;
 
--- test ver agentes que yo compartí a otros
-SELECT * FROM vw_Agentes_Compartidos 
-WHERE IdUsuarioDueno = 1;
+-- test del mismo usuario pero esta vez recibe un agente compartido (lectura)
+SELECT *
+FROM vw_Agentes_Compartidos
+WHERE IdUsuarioCompartido = 2;
